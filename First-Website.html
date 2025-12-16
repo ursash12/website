@@ -1,1 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shadow Noir — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --fg: #f5f5f5;
+      --muted: #9a9a9a;
+      --accent: #ffffff;
+      --card: #141414;
+      --shadow: rgba(255,255,255,0.08);
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #111 0%, #000 60%);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.6);
+      border-bottom: 1px solid #1f1f1f;
+      z-index: 10;
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul li a {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: var(--accent);
+    }
+
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 5rem 1.5rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      min-height: 80vh;
+    }
+
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .hero .card {
+      background: linear-gradient(180deg, #161616, #0f0f0f);
+      padding: 2.5rem;
+      border-radius: 18px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 0 1px #1f1f1f;
+    }
+
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .project {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9), inset 0 0 0 1px #1c1c1c;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 40px 90px rgba(0,0,0,1), inset 0 0 0 1px #2a2a2a;
+    }
+
+    .project h4 {
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+    }
+
+    .project p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      border-top: 1px solid #1f1f1f;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero h2 {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <h1>Shadow Noir</h1>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero" id="about">
+  <div>
+    <h2>Elegant. Minimal. Timeless.</h2>
+    <p>
+      A classic black & white portfolio designed with depth, soft shadows,
+      and refined typography. Built to highlight your work with quiet confidence.
+    </p>
+  </div>
+  <div class="card">
+    <p><strong>Name:</strong> Your Name</p>
+    <p><strong>Role:</strong> Developer / Designer</p>
+    <p><strong>Focus:</strong> Clean UI, performance, precision</p>
+  </div>
+</section>
+
+<section id="projects">
+  <h3>Selected Work</h3>
+  <div class="projects">
+    <div class="project">
+      <h4>Project One</h4>
+      <p>A refined web experience with strong visual hierarchy.</p>
+    </div>
+    <div class="project">
+      <h4>Project Two</h4>
+      <p>Minimalist design system built for scalability.</p>
+    </div>
+    <div class="project">
+      <h4>Project Three</h4>
+      <p>High‑performance application with elegant UI.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h3>Contact</h3>
+  <p style="max-width: 520px; color: var(--muted);">
+    Let’s create something timeless together.
+    <br />
+    Email: you@example.com
+  </p>
+</section>
+
+<footer>
+  © 2025 • Shadow Noir Portfolio
+</footer>
+
+</body>
+</html>
