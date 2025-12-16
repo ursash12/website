@@ -2,221 +2,1010 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shadow Noir — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Palash Karn – AI & ML Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- High-fashion serif + modern sans (Cormorant + Inter as an example) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" /> <!-- [web:42][web:46] -->
+
   <style>
     :root {
-      --bg: #0b0b0b;
-      --fg: #f5f5f5;
-      --muted: #9a9a9a;
-      --accent: #ffffff;
-      --card: #141414;
-      --shadow: rgba(255,255,255,0.08);
+      --black-deep: #050506;
+      --black-soft: #101014;
+      --milky-white: #f5f2ee;
+      --charcoal: #111111;
+      --charcoal-soft: #222222;
+      --gold: #bfa06b;
+      --gold-soft: #d4c098;
+      --divider: rgba(255, 255, 255, 0.2);
+      --divider-dark: rgba(0, 0, 0, 0.16);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.26);
+      --transition-fast: 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      --transition-slow: 600ms cubic-bezier(0.19, 1, 0.22, 1);
+      --radius-md: 18px;
+      --radius-lg: 999px;
+      --max-width: 1200px;
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: radial-gradient(circle at top, #181822 0, #020203 55%, #000 100%);
+      color: #ffffff;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
     }
 
     body {
-      background: radial-gradient(circle at top, #111 0%, #000 60%);
-      color: var(--fg);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.7;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    .page {
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      overflow: hidden;
     }
 
-    header {
-      position: sticky;
+    /* Split layout container */
+    .split-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      width: 100%;
+      position: relative;
+      isolation: isolate;
+      transition: transform var(--transition-slow);
+    }
+
+    /* Magnetic hover bias */
+    .page:hover .split-shell {
+      transform: translateX(0);
+    }
+    .page:hover .panel-left:hover ~ .panel-right,
+    .page:hover .panel-left:hover {
+      transform: translateX(1.5%);
+    }
+    .page:hover .panel-right:hover,
+    .page:hover .panel-right:hover ~ .panel-left {
+      transform: translateX(-1.5%);
+    }
+
+    .panel-left,
+    .panel-right {
+      position: relative;
+      min-height: 100vh;
+      transition: transform var(--transition-slow);
+    }
+
+    /* Left: deep black, fixed feeling */
+    .panel-left {
+      background: radial-gradient(circle at top, #181822 0, var(--black-deep) 50%, #000 100%);
+      color: #ffffff;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Right: milky-white, scrollable content */
+    .panel-right {
+      background: var(--milky-white);
+      color: var(--charcoal);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+    }
+
+    /* Subtle texture on milky side */
+    .panel-right::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.32;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(circle at 0 0, rgba(0,0,0,0.02) 0, transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(0,0,0,0.012) 0, transparent 60%),
+        repeating-linear-gradient(135deg, rgba(0,0,0,0.012) 0, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
+    }
+
+    /* Central divider spine */
+    .divider-spine {
+      position: fixed;
       top: 0;
-      backdrop-filter: blur(10px);
-      background: rgba(0,0,0,0.6);
-      border-bottom: 1px solid #1f1f1f;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      transform: translateX(-0.5px);
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.28),
+        rgba(255,255,255,0.08)
+      );
+      opacity: 0.6;
+      pointer-events: none;
       z-index: 10;
     }
 
-    nav {
-      max-width: 1100px;
-      margin: auto;
-      padding: 1.2rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav h1 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-
-    nav ul li a {
-      font-size: 0.9rem;
-      color: var(--muted);
-      transition: color 0.3s ease;
-    }
-
-    nav ul li a:hover {
-      color: var(--accent);
-    }
-
-    section {
-      max-width: 1100px;
-      margin: auto;
-      padding: 5rem 1.5rem;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      min-height: 80vh;
-    }
-
-    .hero h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      line-height: 1.2;
-    }
-
-    .hero p {
-      margin-top: 1.5rem;
-      color: var(--muted);
-      max-width: 520px;
-    }
-
-    .hero .card {
-      background: linear-gradient(180deg, #161616, #0f0f0f);
-      padding: 2.5rem;
-      border-radius: 18px;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 0 1px #1f1f1f;
-    }
-
-    h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-    }
-
-    .project {
-      background: var(--card);
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.9), inset 0 0 0 1px #1c1c1c;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .project:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 40px 90px rgba(0,0,0,1), inset 0 0 0 1px #2a2a2a;
-    }
-
-    .project h4 {
-      margin-bottom: 0.8rem;
-      font-weight: 500;
-    }
-
-    .project p {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    footer {
-      border-top: 1px solid #1f1f1f;
-      padding: 3rem 1.5rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
+    /* Shared inner container */
+    .inner {
+      width: 100%;
+      max-width: var(--max-width);
+      margin-inline: auto;
+      padding-inline: 56px;
     }
 
     @media (max-width: 900px) {
-      .hero {
+      .inner {
+        padding-inline: 24px;
+      }
+    }
+
+    /* Left hero */
+    .hero-left {
+      padding-block: 56px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .nav-left {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 72px;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: 18px;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      box-shadow: 0 0 16px rgba(191, 160, 107, 0.6);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+    }
+
+    .nav-link {
+      position: relative;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.72);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -6px;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), var(--gold-soft));
+      transform: translateX(-50%);
+      transition: width var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .hero-text-block {
+      max-width: 520px;
+      padding-right: 32px;
+    }
+
+    .hero-kicker {
+      font-size: 12px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.56);
+      margin-bottom: 18px;
+    }
+
+    .hero-name {
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: clamp(46px, 5vw, 64px);
+      line-height: 0.92;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 22px;
+    }
+
+    .hero-description {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.72);
+      max-width: 420px;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      gap: 32px;
+      margin-top: 36px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.56);
+    }
+
+    .meta-label {
+      font-weight: 500;
+      color: rgba(255,255,255,0.72);
+    }
+
+    /* Portrait halo area */
+    .hero-center {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .portrait-wrap {
+      position: relative;
+      width: min(260px, 40vw);
+      aspect-ratio: 3 / 4;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateX(-10px);
+    }
+
+    /* Halo glow */
+    .portrait-glow {
+      position: absolute;
+      inset: -32%;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.24), transparent 55%),
+        radial-gradient(circle at 20% 100%, rgba(191, 160, 107, 0.28), transparent 65%);
+      filter: blur(32px);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      animation: haloPulse 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes haloPulse {
+      0% { transform: scale(0.96) translateY(4px); opacity: 0.72; }
+      100% { transform: scale(1.03) translateY(-4px); opacity: 0.92; }
+    }
+
+    /* Portrait frame */
+    .portrait-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.22), transparent 65%),
+        radial-gradient(circle at 80% 90%, rgba(0, 0, 0, 0.7), #111);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 0 0 2px rgba(191, 160, 107, 0.6),
+        0 18px 60px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+    }
+
+    .portrait-inner-border {
+      position: absolute;
+      inset: 12px;
+      border-radius: inherit;
+      border: 1px solid rgba(255,255,255,0.22);
+      opacity: 0.6;
+    }
+
+    .portrait-placeholder {
+      position: absolute;
+      inset: 18px;
+      border-radius: inherit;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.8)),
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.12), transparent 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* Right side content sections */
+    .right-scroll {
+      position: relative;
+      z-index: 1;
+      padding-block: 56px 80px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: 24px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+    }
+
+    .section-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: rgba(0,0,0,0.48);
+    }
+
+    .section-body {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+      gap: 40px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    @media (max-width: 900px) {
+      .split-shell {
         grid-template-columns: 1fr;
       }
-      .hero h2 {
-        font-size: 2.4rem;
+      .divider-spine {
+        display: none;
       }
+      .hero-center {
+        position: static;
+        margin-block: 32px;
+      }
+      .panel-left {
+        position: relative;
+      }
+      .panel-right {
+        max-height: none;
+      }
+      .section-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Subtle vertical rule */
+    .section-body::before {
+      content: "";
+      position: absolute;
+      left: 32%;
+      top: 0;
+      bottom: 0;
+      border-left: 1px solid rgba(0,0,0,0.08);
+      pointer-events: none;
+    }
+    @media (max-width: 900px) {
+      .section-body::before {
+        display: none;
+      }
+    }
+
+    .section-meta {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: rgba(0,0,0,0.5);
+      padding-top: 4px;
+    }
+
+    .section-meta-item + .section-meta-item {
+      margin-top: 8px;
+    }
+
+    .body-copy {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(0,0,0,0.76);
+    }
+
+    .body-copy p + p {
+      margin-top: 16px;
+    }
+
+    .pull-quote {
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: 18px;
+      font-style: italic;
+      color: rgba(0,0,0,0.7);
+      margin-top: 22px;
+    }
+
+    /* Skills */
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .skill-label {
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      font-size: 12px;
+      color: rgba(0,0,0,0.64);
+    }
+
+    .skill-pill {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.56);
+    }
+
+    .skill-line-wrap {
+      position: relative;
+      margin-top: 6px;
+    }
+
+    .skill-line {
+      position: relative;
+      height: 1px;
+      background: rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+
+    .skill-line-fill {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: linear-gradient(to right, var(--gold), var(--gold-soft));
+      transition: width 1.2s ease-out;
+    }
+
+    .skills-card {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,0.0);
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 14px 50px rgba(0,0,0,0.08),
+        inset 0 0 0 1px rgba(255,255,255,0.32);
+      padding: 20px 22px;
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .skills-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.16);
+      box-shadow:
+        0 18px 60px rgba(0,0,0,0.14),
+        inset 0 0 0 1px rgba(255,255,255,0.4);
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.36);
+      box-shadow:
+        0 18px 60px rgba(0,0,0,0.14),
+        inset 0 0 0 1px rgba(255,255,255,0.7);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow:
+        0 24px 80px rgba(0,0,0,0.18),
+        inset 0 0 0 1px rgba(255,255,255,0.9);
+    }
+
+    .project-thumb {
+      position: relative;
+      height: 180px;
+      background:
+        linear-gradient(135deg, #dddddd, #b2b2b2);
+      filter: grayscale(100%);
+      overflow: hidden;
+    }
+
+    .project-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,0.4), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.28), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+    }
+
+    .project-body {
+      padding: 18px 20px 20px;
+    }
+
+    .project-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      color: rgba(0,0,0,0.54);
+      margin-bottom: 8px;
+    }
+
+    .project-title {
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(0,0,0,0.7);
+      margin-bottom: 14px;
+    }
+
+    .project-link {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Contact */
+    .contact-card {
+      max-width: 520px;
+      margin-inline: auto;
+      padding: 28px 28px 26px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.64);
+      box-shadow:
+        0 18px 60px rgba(0,0,0,0.16),
+        inset 0 0 0 1px rgba(255,255,255,0.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .contact-title {
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: 26px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+
+    .contact-sub {
+      font-size: 14px;
+      text-align: center;
+      color: rgba(0,0,0,0.7);
+      margin-bottom: 22px;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      color: rgba(0,0,0,0.6);
+      margin-bottom: 4px;
+    }
+
+    .field-shell {
+      border-radius: 14px;
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .field-input,
+    .field-textarea {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--charcoal);
+      resize: vertical;
+      min-height: 32px;
+    }
+
+    .field-textarea {
+      min-height: 80px;
+    }
+
+    .contact-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    .btn-outline {
+      padding: 10px 26px;
+      border-radius: 999px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      cursor: pointer;
+      transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .btn-outline:hover {
+      background: var(--gold);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.16);
+    }
+
+    /* Right-side small contact info on black side bottom */
+    .left-footer {
+      margin-top: auto;
+      padding-bottom: 36px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.52);
+    }
+
+    .left-footer-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 6px;
+    }
+
+    .left-footer-label {
+      color: rgba(255,255,255,0.8);
     }
   </style>
 </head>
 <body>
+  <div class="divider-spine"></div>
 
-<header>
-  <nav>
-    <h1>Shadow Noir</h1>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+  <div class="page">
+    <div class="split-shell">
+      <!-- LEFT BLACK PANEL -->
+      <section class="panel-left">
+        <div class="inner">
+          <div class="hero-left">
+            <header class="nav-left">
+              <div class="brand-mark">
+                <span class="brand-dot"></span>
+                <span>PK Studio</span>
+              </div>
+              <nav class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+              </nav>
+            </header>
 
-<section class="hero" id="about">
-  <div>
-    <h2>Elegant. Minimal. Timeless.</h2>
-    <p>
-      A classic black & white portfolio designed with depth, soft shadows,
-      and refined typography. Built to highlight your work with quiet confidence.
-    </p>
-  </div>
-  <div class="card">
-    <p><strong>Name:</strong> Your Name</p>
-    <p><strong>Role:</strong> Developer / Designer</p>
-    <p><strong>Focus:</strong> Clean UI, performance, precision</p>
-  </div>
-</section>
+            <main class="hero-text-block">
+              <div class="hero-kicker">Portfolio / 2025</div>
+              <h1 class="hero-name">Palash&nbsp;Karn</h1>
+              <div class="hero-subtitle">AI &amp; Machine Learning Developer</div>
+              <p class="hero-description">
+                Designing intelligent systems and crafted interfaces with a calm, editorial precision.
+                A blend of research, engineering, and visual sensibility focused on timeless digital experiences.
+              </p>
 
-<section id="projects">
-  <h3>Selected Work</h3>
-  <div class="projects">
-    <div class="project">
-      <h4>Project One</h4>
-      <p>A refined web experience with strong visual hierarchy.</p>
+              <div class="hero-meta-row">
+                <div>
+                  <span class="meta-label">Focus</span>
+                  <span> &nbsp;Machine Learning · Interfaces</span>
+                </div>
+                <div>
+                  <span class="meta-label">Based In</span>
+                  <span> &nbsp;India · IST</span>
+                </div>
+              </div>
+            </main>
+
+            <footer class="left-footer">
+              <div>Direct</div>
+              <div class="left-footer-row">
+                <div>
+                  <span class="left-footer-label">Email</span>&nbsp;&nbsp;palash@example.com
+                </div>
+                <div>
+                  <span class="left-footer-label">Status</span>&nbsp;&nbsp;Open to collaborations
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER PORTRAIT (OVERLAYS BOTH SIDES) -->
+      <div class="hero-center">
+        <div class="portrait-wrap">
+          <div class="portrait-glow"></div>
+          <div class="portrait-frame">
+            <div class="portrait-inner-border"></div>
+            <div class="portrait-placeholder">
+              Portrait<br />Placeholder
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT MILKY PANEL -->
+      <section class="panel-right">
+        <div class="right-scroll">
+          <div class="inner">
+
+            <!-- ABOUT -->
+            <section id="about" class="section">
+              <div class="section-header">
+                <h2 class="section-title">About</h2>
+                <div class="section-kicker">Calm · Editorial · Precise</div>
+              </div>
+
+              <div class="section-body">
+                <div>
+                  <div class="section-meta">
+                    <div class="section-meta-item">B.Tech CSE · AI &amp; ML</div>
+                    <div class="section-meta-item">Crafting thoughtful, long-lived products</div>
+                  </div>
+                </div>
+                <div class="body-copy">
+                  <p>
+                    The work sits at the intersection of machine learning, clean engineering, and minimal luxury design.
+                    Every interface is treated like an editorial spread—quiet, intentional, and free from distraction.
+                  </p>
+                  <p>
+                    The goal is to build systems that feel both intuitive and intelligent: clear information hierarchy,
+                    slow cinematic motion, and strong contrasts between deep matte blacks and soft milky whites.
+                  </p>
+                  <p class="pull-quote">
+                    “Technology should feel composed—never loud, never rushed.”
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- SKILLS -->
+            <section id="skills" class="section">
+              <div class="section-header">
+                <h2 class="section-title">Skills</h2>
+                <div class="section-kicker">Focus · Discipline · Depth</div>
+              </div>
+
+              <div class="section-body">
+                <div>
+                  <div class="skills-list">
+                    <div>
+                      <div class="skill-label">Machine Learning</div>
+                      <div class="skill-line-wrap">
+                        <div class="skill-line">
+                          <div class="skill-line-fill" style="width: 72%;"></div>
+                        </div>
+                        <div class="skill-pill">Core · Applied</div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="skill-label">Frontend &amp; UI</div>
+                      <div class="skill-line-wrap">
+                        <div class="skill-line">
+                          <div class="skill-line-fill" style="width: 64%;"></div>
+                        </div>
+                        <div class="skill-pill">Editorial · Minimal</div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="skill-label">Systems &amp; C</div>
+                      <div class="skill-line-wrap">
+                        <div class="skill-line">
+                          <div class="skill-line-fill" style="width: 58%;"></div>
+                        </div>
+                        <div class="skill-pill">Foundations · Discipline</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="skills-card">
+                  <div class="body-copy">
+                    <p>
+                      Recent work explores applied AI and clean, human-centered tools—from exploratory models and
+                      prototypes to polished experiences tuned for clarity rather than spectacle.
+                    </p>
+                    <p>
+                      The visual language leans on restrained palettes, glass-like surfaces, and precise typography,
+                      allowing the underlying ideas and data to remain the quiet hero.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section id="projects" class="section">
+              <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+                <div class="section-kicker">Grayscale · Measured · Refined</div>
+              </div>
+
+              <div class="section-body" style="grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.4fr);">
+                <div>
+                  <div class="section-meta">
+                    <div class="section-meta-item">Selected work in AI, tools, and interface design.</div>
+                    <div class="section-meta-item">More details available on request.</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="projects-grid">
+                    <article class="project-card">
+                      <div class="project-thumb"></div>
+                      <div class="project-body">
+                        <div class="project-tag">Neural Interface · 2025</div>
+                        <h3 class="project-title">Conversational Lab Assistant</h3>
+                        <p class="project-desc">
+                          An AI assistant concept for technical learning that blends structured guidance with a quiet,
+                          editorial interface—no clutter, only carefully prioritized information.
+                        </p>
+                        <div class="project-link">View Concept<span>↗</span></div>
+                      </div>
+                    </article>
+
+                    <article class="project-card">
+                      <div class="project-thumb"></div>
+                      <div class="project-body">
+                        <div class="project-tag">Portfolio System · 2024</div>
+                        <h3 class="project-title">Minimal Luxury Web Presence</h3>
+                        <p class="project-desc">
+                          A two-sided portfolio template balancing deep black and milky-white surfaces, designed to feel
+                          timeless and calm across desktop and mobile.
+                        </p>
+                        <div class="project-link">View Case Study<span>↗</span></div>
+                      </div>
+                    </article>
+
+                    <article class="project-card">
+                      <div class="project-thumb"></div>
+                      <div class="project-body">
+                        <div class="project-tag">Tools · In Progress</div>
+                        <h3 class="project-title">ML Experiments Library</h3>
+                        <p class="project-desc">
+                          A curated set of small, focused experiments in machine learning and systems programming,
+                          presented in a consistent, minimal documentation style.
+                        </p>
+                        <div class="project-link">Explore Notes<span>↗</span></div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section id="contact" class="section">
+              <div class="section-header">
+                <h2 class="section-title">Contact</h2>
+                <div class="section-kicker">Professional · Simple · Direct</div>
+              </div>
+
+              <div class="contact-card">
+                <h3 class="contact-title">Let’s Build Something Intelligent</h3>
+                <p class="contact-sub">
+                  For collaborations, internships, and thoughtful projects in AI, tools, and modern interfaces.
+                </p>
+
+                <form class="contact-form">
+                  <div>
+                    <div class="field-label">Name</div>
+                    <div class="field-shell">
+                      <input class="field-input" type="text" placeholder="Your name" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="field-label">Email</div>
+                    <div class="field-shell">
+                      <input class="field-input" type="email" placeholder="you@example.com" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="field-label">Message</div>
+                    <div class="field-shell">
+                      <textarea class="field-textarea" placeholder="Tell me about the project, timeline, and expectations."></textarea>
+                    </div>
+                  </div>
+
+                  <div class="contact-actions">
+                    <button type="submit" class="btn-outline">Send Message</button>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="project">
-      <h4>Project Two</h4>
-      <p>Minimalist design system built for scalability.</p>
-    </div>
-    <div class="project">
-      <h4>Project Three</h4>
-      <p>High‑performance application with elegant UI.</p>
-    </div>
   </div>
-</section>
-
-<section id="contact">
-  <h3>Contact</h3>
-  <p style="max-width: 520px; color: var(--muted);">
-    Let’s create something timeless together.
-    <br />
-    Email: you@example.com
-  </p>
-</section>
-
-<footer>
-  © 2025 • Shadow Noir Portfolio
-</footer>
-
 </body>
 </html>
