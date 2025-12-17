@@ -1,141 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ash | Portfolio</title>
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    body{
-      background:linear-gradient(blue,red,green);
-      color:#fff;
-    }
-    header{
-      padding:30px;
-      text-align:center;
-      border-bottom:1px solid #222;
-    }
-    header h1{
-      font-size:32px;
-      letter-spacing:1px;
-    }
-    header p{
-      margin-top:8px;
-      color:#aaa;
-      font-size:14px;
-    }
-    section{
-      padding:50px 10%;
-    }
-    h2{
-      font-size:26px;
-      margin-bottom:20px;
-      color:#00ffd5;
-    }
-    .about p{
-      max-width:700px;
-      line-height:1.7;
-      color:#ddd;
-    }
-    .skills{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-      gap:15px;
-      max-width:700px;
-    }
-    .skill{
-      background:#151515;
-      padding:15px;
-      border-radius:10px;
-      text-align:center;
-      border:1px solid #222;
-    }
-    .projects{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
-    }
-    .project{
-      background:#151515;
-      padding:20px;
-      border-radius:12px;
-      border:1px solid #222;
-    }
-    .project h3{
-      margin-bottom:10px;
-    }
-    .project p{
-      font-size:14px;
-      color:#bbb;
-    }
-    .contact p{
-      font-size:15px;
-      color:#ddd;
-    }
-    footer{
-      text-align:center;
-      padding:20px;
-      font-size:12px;
-      color:#666;
-      border-top:1px solid #222;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #7e5bef, #c49aff);
+    overflow-x: hidden;
+    color: #f0e6ff;
+  }
+
+  
+  #snow-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  
+  #ai-character {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.2s;
+  }
+
+  #ai-character:hover {
+    transform: scale(1.1);
+  }
+
+  
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-size: 64px;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 0 0 20px #d1b3ff;
+  }
+
+  .hero p {
+    font-size: 24px;
+    color: #f0e6ff;
+    text-shadow: 0 0 10px #d1b3ff;
+  }
+
+ 
+  .section {
+    padding: 120px 20px;
+    max-width: 1000px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+    border-radius: 20px;
+  }
+
+  .section-title {
+    font-size: 50px;
+    margin-bottom: 40px;
+    color: #ffffff;
+    text-shadow: 0 0 15px #c49aff;
+  }
+
+  .section p {
+    font-size: 20px;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+ 
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .feature-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    color: #fff;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .feature-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .feature-card p {
+    font-size: 16px;
+  }
+
+  .footer {
+    padding: 50px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    color: #fff;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+
+  #message-box {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 15px 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    color: #fff;
+    display: none;
+    z-index: 30;
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <h1>Ash</h1>
-  <p>Web Desinger • Content creator • Otaku boy</p>
-</header>
+<canvas id="snow-canvas"></canvas>
 
-<section class="about">
-  <h2>About Me</h2>
-  <p>
-    Generally I design app and website but sometimes i develop too.
-    Playing Wuthering waves.
-    Instagram:- NovaWuther
-  </p>
+
+<img src="pfp.jpg" id="ai-character" alt="AI Character">
+
+
+<div id="message-box">Hey, how are you?</div>
+
+
+<section class="hero">
+  <h1>Aditya Singh</h1>
+  <p>Made of discipline, dressed in class  | My aura speaks before I do | A blend of ambition, charm & chaos.</p>
 </section>
 
-<section class="skills">
-  <h2>Skills</h2>
-  <div class="skills">
-    <div class="skill">Design</div>
-    <div class="skill">Develop</div>
-    <div class="skill">Content creation</div>
-    <div class="skill">C Programming</div>
-    <div class="skill">Git & GitHub</div>
+
+<section class="section" style="background: rgba(255,255,255,0.05);">
+  <h2 class="section-title">About</h2>
+  <p>| I'm a Content creator of Wuthering Waves |  Student of BTech CSE | Designer and Developer alone |</p>
+</section>
+
+
+<section class="section features" style="background: rgba(255,255,255,0.07);">
+  <h2 class="section-title">SKILLS</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <h3>CONTENT CREATION</h3>
+      <p>||| NOVAWUTHER |||</p>
+    </div>
+    <div class="feature-card">
+      <h3>DESIGN</h3>
+      <p>||| FIGMA |||</p>
+    </div>
+    <div class="feature-card">
+      <h3>PROGRAMMING LANGUAGE</h3>
+      <p>||| C PROGRAMMING |||</p>
+    </div>
   </div>
 </section>
 
-<section class="projects">
-  <h2>Projects</h2>
-  <div class="projects">
-    <div class="project">
-      <h3>Basic Website</h3>
-      <p>A simple responsive website built using HTML and CSS.</p>
+
+<section class="section features" style="background: rgba(255,255,255,0.05);">
+  <h2 class="section-title">HOBBIES</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <h3>GAME</h3>
+      <p>||| WUTHERING WAVES |||</p>
     </div>
-    <div class="project">
-      <h3>Profile Page</h3>
-      <p>A profile card design with modern dark UI.</p>
+    <div class="feature-card">
+      <h3>ARTS</h3>
+      <p>||| SKETCH |||</p>
+    </div>
+    <div class="feature-card">
+      <h3>MUSIC</h3>
+      <p>||| GUITAR |||</p>
     </div>
   </div>
 </section>
 
-<section class="contact">
-  <h2>Contact</h2>
-  <p>Email: novawuther@gmail.com</p>
-  <p>Instagram :- https://www.instagram.com/novawuther/ </p>
+
+<section class="footer">
+  <p>&copy; ADITYA SINGH. All rights reserved.</p>
 </section>
 
-<footer>
- made by Ash 
-</footer>
+
+<script>
+  const canvas = document.getElementById('snow-canvas');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+
+  const snowflakes = [];
+  const maxFlakes = 120;
+
+  function Snowflake() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.radius = Math.random() * 3 + 2;
+    this.speed = Math.random() * 1 + 0.5;
+    this.wind = Math.random() * 1 - 0.5;
+    this.color = `rgba(${200 + Math.random()*55}, ${150 + Math.random()*55}, 255, 0.8)`;
+  }
+
+  Snowflake.prototype.update = function() {
+    this.y += this.speed;
+    this.x += this.wind;
+    if (this.y > h) {
+      this.y = -this.radius;
+      this.x = Math.random() * w;
+    }
+  }
+
+  Snowflake.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+
+  function initSnow() {
+    for (let i = 0; i < maxFlakes; i++) {
+      snowflakes.push(new Snowflake());
+    }
+  }
+
+  function animateSnow() {
+    ctx.clearRect(0,0,w,h);
+    snowflakes.forEach(flake => {
+      flake.update();
+      flake.draw();
+    });
+    requestAnimationFrame(animateSnow);
+  }
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+
+  initSnow();
+  animateSnow();
+</script>
+
+
+<script>
+  const ai = document.getElementById('ai-character');
+  const messageBox = document.getElementById('message-box');
+
+  ai.addEventListener('click', () => {
+    messageBox.style.display = 'block';
+    setTimeout(() => {
+      messageBox.style.display = 'none';
+    }, 2000);
+  });
+</script>
 
 </body>
 </html>
